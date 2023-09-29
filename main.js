@@ -13,6 +13,9 @@ const createWindow = () => {
     height: 600,
     title: "Homie Hon",
     show: false,
+    webPreferences: {
+        preload: path.join(__dirname, "preload.js")
+    }
   });
 
   Menu.setApplicationMenu(null);
