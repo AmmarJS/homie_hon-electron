@@ -9,13 +9,14 @@
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "build-installer": "electron-builder"
+    "build-installer": "electron-builder --x64 --ia32"
   },
   "build": {
     "appId": "homie_hon",
     "win": {
       "target": ["nsis"],
-      "icon": "icon.ico"
+      "icon": "icon.ico",
+      "publisherName": "Ammar Jlies"
     },
     "nsis": {
       "installerIcon": "icon.ico",
