@@ -2,12 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
+.background-gradient {
+    background-color: #8EC5FC;
+    background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
+}
+
 @layer components {
     .nav-link {
         @apply text-xl hover:text-slate-500 transition-all;
     }
 
     .btn {
-        @apply p-4 h-[200px] w-[400px] bg-slate-400 border-2 border-slate-400 hover:bg-slate-800 hover:border-slate-800 hover:text-white transition-all shadow-lg
+        @apply p-4 h-[200px] w-[400px] bg-slate-400 border-2 border-slate-400 hover:bg-slate-800 hover:border-slate-800 hover:text-white transition-all shadow-lg rounded-md
     }
+
+    .btn-active {
+        @apply p-4 h-[200px] w-[400px] bg-slate-800 border-2 border-slate-800 text-white hover:bg-slate-400 hover:border-slate-400 hover:text-black transition-all shadow-lg rounded-md
+    }
+
+    .save-btn {
+        @apply p-4 bg-slate-400 border-2 border-slate-400 hover:bg-slate-800 hover:border-slate-800 hover:text-white transition-all rounded-md
+    }
+
+    .save-btn-disabled {
+        @apply p-4 bg-slate-400 border-2 border-slate-400 opacity-70 transition-all rounded-md cursor-not-allowed
+    }
+
+    .without-ring {
+        @apply focus:ring-0 focus:ring-offset-0 ring-0 ring-offset-0 focus:outline-none outline-none active:outline-none active:ring-0 active:ring-offset-0;
+    }
+
+    .with-border {
+        @apply focus:border
+    }
+      
 }

@@ -4,62 +4,118 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <script src="app.js" defer></script>
-    <title>Homie Hon</title>
+    <script src="app.js" type="module" defer></script>
+    <script src="title.js" type="module"></script>
+    <title></title>
 </head>
 <body class="h-screen w-screen flex">
     <nav class="h-full w-[10%] border-l-2 border-black shadow-xl flex flex-col justify-around items-center">
-        <a href="#" class="nav-link">إدخال مصروف</a>
-        <a href="#" class="nav-link">السجل</a>
-        <a href="#" class="nav-link">الإعدادات</a>
-        <a href="#" class="nav-link">الخروج</a>
+        <a id="expense" href="#" class="nav-link">إدخال مصروف</a>
+        <a id="log" href="#" class="nav-link">السجل</a>
+        <a id="settings" href="#" class="nav-link">الإعدادات</a>
+        <a id="exit" href="#" class="nav-link">الخروج</a>
     </nav>
-    <main class="h-full w-[90%] flex flex-col divide-y-2 p-4">
+    <main class="h-full w-[90%] flex flex-col p-4">
         <section class="flex gap-4 flex-1">
-            <button id="1" class="btn">الجهاز الأول</button>
-            <button id="2" class="btn">الجهاز الثاني</button>
-            <button id="3" class="btn">الجهاز الثالث</button>
-            <button id="4" class="btn">الجهاز الرابع</button>
-            <button id="5" class="btn">الجهاز الخامس</button>
+            <button id="1" class="btn device-btn">الجهاز الأول</button>
+            <button id="2" class="btn device-btn">الجهاز الثاني</button>
+            <button id="3" class="btn device-btn">الجهاز الثالث</button>
+            <button id="4" class="btn device-btn">الجهاز الرابع</button>
+            <button id="5" class="btn device-btn">الجهاز الخامس</button>
         </section>
-        <section class="flex-[2_2_0]">
-            <table class="w-full h-full table-auto text-right" dir="rtl">
-                <thead>
+        <section class="flex-[2_2_0] max-h-full overflow-y-auto">
+            <table id="records-table" class="w-full h-full table-auto text-right mt-2" dir="rtl">
+                <thead class="sticky top-0 bg-white">
                     <tr>
                         <th scope="col" class="p-4 border">التاريخ</th>
-                        <th scope="col" class="p-4 border">الجهاز</th>
+                        <th scope="col" class="p-4 border">العنوان</th>
                         <th scope="col" class="p-4 border">السعر</th>
+                        <th scope="col" class="p-4 border">الحذف</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td scope="col" class="p-4 border">21/7/2022</td>
-                        <td scope="col" class="p-4 border">3</td>
-                        <td scope="col" class="p-4 border">8500</td>
-                    </tr>
-                    <tr>
-                        <td scope="col" class="p-4 border">21/7/2022</td>
-                        <td scope="col" class="p-4 border">3</td>
-                        <td scope="col" class="p-4 border">8500</td>
-                    </tr>
-                    <tr>
-                        <td scope="col" class="p-4 border">21/7/2022</td>
-                        <td scope="col" class="p-4 border">3</td>
-                        <td scope="col" class="p-4 border">8500</td>
-                    </tr>
-                    <tr>
-                        <td scope="col" class="p-4 border">21/7/2022</td>
-                        <td scope="col" class="p-4 border">3</td>
-                        <td scope="col" class="p-4 border">8500</td>
-                    </tr>
-                    <tr>
-                        <td scope="col" class="p-4 border">21/7/2022</td>
-                        <td scope="col" class="p-4 border">3</td>
-                        <td scope="col" class="p-4 border">8500</td>
-                    </tr>
+                <tbody class="overflow-y-scroll">
+                    
                 </tbody>
             </table>
         </section>
+        <h1 class="text-lg font-bold">إجمالي اليوم: <span id="total-amount" dir="ltr">0</span></h1>
     </main>
+
+    <div id="expense-modal" class="origin-center scale-0 h-1/2 w-1/2 bg-white border-2 border-black shadow-xl z-10 fixed top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] transition-all rounded-md">
+        <div class="h-full w-full relative flex flex-col justify-around items-center p-8">
+            <h1 class="font-bold text-2xl text-center">إدخال مصروف</h1>
+            <button id="close-modal" class="absolute top-4 right-6 text-2xl">&times;</button>
+            <div class="">
+                <label for="name">العنوان</label>
+                <input type="text" name="name" class="p-1 w-full h-8 border border-black rounded-md without-ring with-border mt-2" id="name">
+                <label for="amount">المبلغ</label>
+                <input type="number" name="amount" class="p-1 w-full h-8 border border-black rounded-md without-ring with-border mt-2" id="amount">
+            </div>
+            <button id="save-expense" class="save-btn-disabled" disabled>حفظ</button>
+        </div>
+    </div>
+
+    <div id="device-modal" class="origin-center scale-0 h-1/2 w-1/2 bg-white border-2 border-black shadow-xl z-10 fixed top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] transition-all rounded-md">
+        <div class="h-full w-full relative flex flex-col justify-around items-center p-8">
+            <h1 class="font-bold text-2xl text-center">انتهى الوقت</h1>
+            <button id="close-device-modal" class="absolute top-4 right-6 text-2xl">&times;</button>
+            <div class="">
+                <h1>البداية: <span id="start-time"></span></h1>
+                <h1>النهاية: <span id="end-time"></span></h1>
+                <h1>الوقت: <span id="total-time"></span></h1>
+                <h1>السعر: <span id="price"></span></h1>
+            </div>
+            <button id="save-record" class="save-btn">حفظ</button>
+        </div>
+    </div>
+
+    <div id="options-modal" class="origin-center scale-0 h-1/2 w-1/2 bg-white border-2 border-black shadow-xl z-10 fixed top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] transition-all rounded-md">
+        <div class="h-full w-full relative flex flex-col justify-around items-center p-8">
+            <h1 class="font-bold text-2xl text-center">الإعدادات</h1>
+            <button id="close-options-modal" class="absolute top-4 right-6 text-2xl">&times;</button>
+            <div class="">
+                <label for="hour">سعر الساعة</label>
+                <input type="number" name="hour" class="p-1 w-full h-8 border border-black rounded-md without-ring with-border mt-1" id="hour">
+                <br class="mt-4">
+                <label for="ceil">تقريب المبلغ للأعلى</label>
+                <select name="ceil" id="ceil" class="without-ring">
+                    <option value="yes">نعم</option>
+                    <option value="no">لا</option>
+                </select>
+                <!-- <br class="mt-4">
+                <a id="export" href="#" class="hover:text-slate-500 transition-all">تصدير قاعدة البيانات</a>
+                <br class="mt-4">
+                <a id="import" href="#" class="hover:text-slate-500 transition-all">استيراد قاعدة البيانات</a> -->
+            </div>
+            <button id="save-options" class="save-btn">حفظ</button>
+        </div>
+    </div>
+
+    <div id="log-modal" class="origin-center scale-0 h-3/4 w-3/4 bg-white border-2 border-black shadow-xl z-10 fixed top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] transition-all rounded-md">
+        <div class="h-full w-full relative flex flex-col justify-around items-center p-8 overflow-y-auto">
+            <h1 class="font-bold text-2xl text-center">السجل</h1>
+            <button id="close-log-modal" class="absolute top-4 right-6 text-2xl">&times;</button>
+            <div class="w-full h-full p-2">
+                <label for="date">اختر التاريخ:</label>
+                <input type="date" id="date" name="date">
+                <h1 class="text-lg font-bold my-4">إجمالي اليوم: <span id="total-log-amount" dir="ltr">0</span></h1>
+                <table id="date-table" class="hidden w-full h-full table-auto text-right" dir="rtl">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="p-4 border">التاريخ</th>
+                            <th scope="col" class="p-4 border">العنوان</th>
+                            <th scope="col" class="p-4 border">السعر</th>
+                            <th scope="col" class="p-4 border">الحذف</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <object data="./loader.svg" type="image/svg+xml"></object>
 </body>
 </html>

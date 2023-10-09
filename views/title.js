@@ -1,0 +1,1 @@
+document.querySelector("title").textContent = `Homie Hon - v${await electronAPI.getVersion()}`;
